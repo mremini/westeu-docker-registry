@@ -68,7 +68,7 @@ spec:
 
 ```
 
-## Create the Registry deployment
+## Create the Registry deployment and service
 1. Use the command  **kubectl apply -f docker-registry-deployment.yaml** . The yaml file is below
 
 ```
@@ -138,3 +138,45 @@ spec:
 ```
 
 3. Use the command **kubectl describe svc docker-registry-svc** to verify the service
+
+## Test the registry
+
+1. Use FortiGate vip or FortiADC VS to expose the Registry
+
+```
+config firewall vip
+    edit "vip-docker-registry"
+        set mappedip "10.72.1.4"
+        set extintf "port1"
+        set portforward enable
+        set extport 443
+        set mappedport 31560
+    next
+end
+```
+2. Put the signing CA or Sub CA cert in the docker folder (/etc/docker/certs.d/$REGISTRY_NAME) to ensure that the presented Registry certificate is trusted by docker
+The name must correspond to the CN name of the registry certificate generated in step2 of "Generate Cert and Secret" part
+
+```
+/etc/docker$ ls -R certs.d/
+certs.d/:
+reg-westeu.az.xxxxx.xxx
+
+certs.d/reg-westeu.az.xxxx.xxx:
+ca.crt
+
+```
+
+3. Test the access using the command docker login
+
+```
+sudo docker login reg-westeu.az.xxxx.xxx:
+Username: mremini
+Password: 
+WARNING! Your password will be stored unencrypted in /home/mremini/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+```
