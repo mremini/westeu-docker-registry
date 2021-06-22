@@ -31,9 +31,39 @@ Docker_Registery_Westeu.crt  Docker_Registery_Westeu_nopass.key  ca.ftntcloudpoc
 ```
 
 
-## Create a kubernetes Secret using the cert
+## Create kubernetes Secrets
 
 ```
 kubectl create secret tls cert-secret --cert=/home/mremini/registry/certs/Docker_Registery_Westeu.crt --key=/home/mremini/registry/certs/Docker_Registery_Westeu_nopass.key
+
+kubectl create secret generic reg-auth-secret --from-file=/home/mremini/registry/auth/htpasswd
+```
+
+## Create Persistent Volume and Persistent Volume claim for to store registry images
+Use the command  **kubectl create -f repo-volume.yaml** . The yaml file is below
+
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: docker-reg-pv
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  hostPath:
+    path: /tmp/repository
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: docker-reg-pvc
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
 
 ```
