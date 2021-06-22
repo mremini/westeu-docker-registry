@@ -1,4 +1,4 @@
-##Generate Cert and Secret
+## Generate Cert and Secret
 
 1. Create a registry folder with certs and auth subfolder
 
@@ -31,7 +31,7 @@ Docker_Registery_Westeu.crt  Docker_Registery_Westeu_nopass.key  ca.ftntcloudpoc
 ```
 
 
-##Create a kubernetes Secret using the cert
+## Create a kubernetes Secret using the cert
 
 ```
 kubectl create secret tls cert-secret --cert=/home/mremini/registry/certs/Docker_Registery_Westeu.crt --key=/home/mremini/registry/certs/Docker_Registery_Westeu_nopass.key
