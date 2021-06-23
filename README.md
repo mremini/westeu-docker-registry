@@ -180,3 +180,7 @@ https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 Login Succeeded
 
 ```
+
+Ref Links
+https://medium.com/swlh/deploy-your-private-docker-registry-as-a-pod-in-kubernetes-f6a489bf0180
+https://www.linuxtechi.com/setup-private-docker-registry-kubernetes/
